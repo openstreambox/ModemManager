@@ -29,6 +29,11 @@ for PORT in "$@"; do
     MBIM_PORT=$PORT
     break
   }
+  # match the port name when using the USB interface
+  grep -q cdc_mbim "/sys/class/usbmisc/$PORT/device/uevent" 2>/dev/null && {
+    MBIM_PORT=$PORT
+    break
+  }
 done
 
 # fail if no MBIM port exposed
